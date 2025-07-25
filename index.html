@@ -1,27 +1,18 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Twilio International SMS & Call App with Proxy</title>
+  <title>Twilio SMS & Call App</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
-    rel="stylesheet"
-  />
   <style>
-    body {
-      font-family: 'Inter', sans-serif;
-    }
+    body { font-family: 'Inter', sans-serif; }
   </style>
 </head>
 <body class="bg-gray-50 min-h-screen flex flex-col">
   <header class="bg-white shadow-md">
     <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-semibold text-indigo-600">Twilio International SMS & Call (Proxy)</h1>
+      <h1 class="text-2xl font-semibold text-indigo-600">Twilio SMS & Call App</h1>
       <div class="space-x-6">
         <button id="nav-sms" class="text-indigo-600 font-medium hover:underline focus:outline-none">Send SMS</button>
         <button id="nav-call" class="text-gray-600 hover:text-indigo-600 font-medium focus:outline-none">Make Call</button>
@@ -30,80 +21,22 @@
   </header>
 
   <main class="flex-grow container mx-auto px-4 py-8 max-w-md w-full">
-    <!-- Twilio Credentials Input Page -->
-    <section id="twilio-credentials-page" class="bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">Enter Your Twilio Credentials</h2>
-      <form id="twilio-credentials-form" class="space-y-4">
-        <label for="account-sid" class="block text-gray-700 font-medium">Account SID</label>
-        <input
-          type="text"
-          id="account-sid"
-          name="account-sid"
-          placeholder="ACXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-          required
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          autocomplete="off"
-        />
-        <label for="auth-token" class="block text-gray-700 font-medium">Auth Token</label>
-        <input
-          type="password"
-          id="auth-token"
-          name="auth-token"
-          placeholder="Your Auth Token"
-          required
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          autocomplete="off"
-        />
-        <label for="twilio-phone" class="block text-gray-700 font-medium">Twilio Phone Number</label>
+
+    <!-- SMS Page -->
+    <section id="sms-page" class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Send SMS</h2>
+      <form id="sms-form" class="space-y-4">
+        <label for="sms-phone" class="block text-gray-700 font-medium">Phone Number</label>
         <input
           type="tel"
-          id="twilio-phone"
-          name="twilio-phone"
+          id="sms-phone"
+          name="sms-phone"
           placeholder="+1234567890"
           required
           pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           autocomplete="tel"
         />
-        <button
-          type="submit"
-          class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Save Credentials & Continue
-        </button>
-      </form>
-      <p class="mt-2 text-sm text-gray-500">Your credentials are stored only in your browser session and never sent anywhere else.</p>
-    </section>
-
-    <!-- Phone Number Input Page -->
-    <section id="phone-input-page" class="hidden bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">Enter International Phone Number</h2>
-      <form id="phone-form" class="space-y-4">
-        <label for="phone-number" class="block text-gray-700 font-medium">Phone Number</label>
-        <input
-          type="tel"
-          id="phone-number"
-          name="phone-number"
-          placeholder="+1 234 567 8900"
-          required
-          pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
-          class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          autocomplete="tel"
-        />
-        <p class="text-sm text-gray-500">Include country code, e.g. +1 234 567 8900</p>
-        <button
-          type="submit"
-          class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Continue
-        </button>
-      </form>
-    </section>
-
-    <!-- SMS Message Page -->
-    <section id="sms-message-page" class="hidden bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">Write Your Message</h2>
-      <form id="sms-form" class="space-y-4">
         <label for="sms-message" class="block text-gray-700 font-medium">Message</label>
         <textarea
           id="sms-message"
@@ -120,33 +53,25 @@
         >
           Send SMS
         </button>
-        <button
-          type="button"
-          id="sms-back-button"
-          class="w-full mt-2 border border-gray-300 text-gray-700 font-semibold py-2 rounded-md hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          Back
-        </button>
       </form>
       <p id="sms-status" class="mt-4 text-center text-sm font-medium"></p>
     </section>
 
     <!-- Call Page -->
     <section id="call-page" class="hidden bg-white rounded-lg shadow p-6">
-      <h2 class="text-xl font-semibold mb-4 text-gray-800">Make an International Call</h2>
+      <h2 class="text-xl font-semibold mb-4 text-gray-800">Make a Call</h2>
       <form id="call-form" class="space-y-4">
-        <label for="call-phone-number" class="block text-gray-700 font-medium">Phone Number</label>
+        <label for="call-phone" class="block text-gray-700 font-medium">Phone Number</label>
         <input
           type="tel"
-          id="call-phone-number"
-          name="call-phone-number"
-          placeholder="+44 20 7946 0958"
+          id="call-phone"
+          name="call-phone"
+          placeholder="+1234567890"
           required
           pattern="^\+(?:[0-9] ?){6,14}[0-9]$"
           class="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
           autocomplete="tel"
         />
-        <p class="text-sm text-gray-500">Include country code, e.g. +44 20 7946 0958</p>
         <button
           type="submit"
           class="w-full bg-indigo-600 text-white font-semibold py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
@@ -159,254 +84,105 @@
   </main>
 
   <footer class="bg-white border-t border-gray-200 py-4 text-center text-gray-500 text-sm">
-    &copy; 2024 Twilio International SMS & Call App
+    &copy; 2024 Twilio SMS & Call App
   </footer>
 
   <script>
-    // Navigation buttons
+    const PROXY_URL = 'https://twilio-proxy-eznigvxql-eymen-derdiyoks-projects.vercel.app/api';
+
     const navSms = document.getElementById('nav-sms');
     const navCall = document.getElementById('nav-call');
 
-    // Pages
-    const twilioCredentialsPage = document.getElementById('twilio-credentials-page');
-    const phoneInputPage = document.getElementById('phone-input-page');
-    const smsMessagePage = document.getElementById('sms-message-page');
+    const smsPage = document.getElementById('sms-page');
     const callPage = document.getElementById('call-page');
 
-    // Forms
-    const twilioCredentialsForm = document.getElementById('twilio-credentials-form');
-    const phoneForm = document.getElementById('phone-form');
     const smsForm = document.getElementById('sms-form');
     const callForm = document.getElementById('call-form');
 
-    // Inputs
-    const accountSidInput = document.getElementById('account-sid');
-    const authTokenInput = document.getElementById('auth-token');
-    const twilioPhoneInput = document.getElementById('twilio-phone');
-    const phoneNumberInput = document.getElementById('phone-number');
-    const smsMessageInput = document.getElementById('sms-message');
-    const callPhoneNumberInput = document.getElementById('call-phone-number');
-
-    // Status elements
     const smsStatus = document.getElementById('sms-status');
     const callStatus = document.getElementById('call-status');
 
-    // Back button on SMS page
-    const smsBackButton = document.getElementById('sms-back-button');
-
-    // Store phone number and credentials between pages
-    let currentPhoneNumber = '';
-    let twilioCredentials = null;
-
-    // International phone number regex (E.164 format with optional spaces)
-    const intlPhoneRegex = /^\+(?:[0-9] ?){6,14}[0-9]$/;
-
-    // Save Twilio credentials in sessionStorage (only in browser session)
-    twilioCredentialsForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const accountSid = accountSidInput.value.trim();
-      const authToken = authTokenInput.value.trim();
-      const twilioPhone = twilioPhoneInput.value.trim();
-
-      if (!accountSid || !authToken || !twilioPhone) {
-        alert('Please fill in all Twilio credentials fields.');
-        return;
-      }
-      if (!intlPhoneRegex.test(twilioPhone)) {
-        alert('Please enter a valid Twilio phone number in E.164 format (e.g. +1234567890).');
-        return;
-      }
-
-      twilioCredentials = {
-        accountSid,
-        authToken,
-        twilioPhone: twilioPhone.replace(/\s+/g, ''),
-      };
-
-      sessionStorage.setItem('twilioCredentials', JSON.stringify(twilioCredentials));
-
-      accountSidInput.value = '';
-      authTokenInput.value = '';
-      twilioPhoneInput.value = '';
-
-      twilioCredentialsPage.classList.add('hidden');
-      phoneInputPage.classList.remove('hidden');
-      smsMessagePage.classList.add('hidden');
-      callPage.classList.add('hidden');
-    });
-
-    window.addEventListener('load', () => {
-      const stored = sessionStorage.getItem('twilioCredentials');
-      if (stored) {
-        try {
-          twilioCredentials = JSON.parse(stored);
-          twilioCredentialsPage.classList.add('hidden');
-          phoneInputPage.classList.remove('hidden');
-        } catch {
-          twilioCredentialsPage.classList.remove('hidden');
-          phoneInputPage.classList.add('hidden');
-        }
-      } else {
-        twilioCredentialsPage.classList.remove('hidden');
-        phoneInputPage.classList.add('hidden');
-      }
-    });
-
-    phoneForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const phone = phoneNumberInput.value.trim();
-      if (!intlPhoneRegex.test(phone)) {
-        alert('Please enter a valid international phone number in E.164 format (e.g. +1 234 567 8900).');
-        return;
-      }
-      currentPhoneNumber = phone.replace(/\s+/g, '');
-      smsMessageInput.value = '';
-      smsStatus.textContent = '';
-      phoneInputPage.classList.add('hidden');
-      smsMessagePage.classList.remove('hidden');
-      callPage.classList.add('hidden');
-    });
-
-    smsBackButton.addEventListener('click', () => {
-      smsMessagePage.classList.add('hidden');
-      phoneInputPage.classList.remove('hidden');
+    navSms.addEventListener('click', () => {
+      smsPage.classList.remove('hidden');
       callPage.classList.add('hidden');
       smsStatus.textContent = '';
+      callStatus.textContent = '';
+      smsForm.reset();
+      callForm.reset();
     });
 
-    // Proxy URL - replace with your backend proxy URL that handles Twilio API calls securely
-    const PROXY_URL = 'https://your-backend-proxy.example.com/twilio';
+    navCall.addEventListener('click', () => {
+      callPage.classList.remove('hidden');
+      smsPage.classList.add('hidden');
+      smsStatus.textContent = '';
+      callStatus.textContent = '';
+      smsForm.reset();
+      callForm.reset();
+    });
 
     smsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!twilioCredentials) {
-        alert('Twilio credentials missing. Please refresh and enter your credentials again.');
-        return;
-      }
-      const message = smsMessageInput.value.trim();
-      if (message.length === 0) {
-        alert('Please enter a message to send.');
-        return;
-      }
-      smsStatus.textContent = 'Sending SMS via proxy...';
-      smsStatus.classList.remove('text-red-600');
+      smsStatus.textContent = 'Sending SMS...';
+      smsStatus.classList.remove('text-red-600', 'text-green-600');
       smsStatus.classList.add('text-indigo-600');
 
+      const to = document.getElementById('sms-phone').value.trim().replace(/\s+/g, '');
+      const message = document.getElementById('sms-message').value.trim();
+
       try {
-        // Send SMS request to your backend proxy
-        const response = await fetch(PROXY_URL + '/send-sms', {
+        const res = await fetch(PROXY_URL + '/send-sms', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: currentPhoneNumber,
-            message: message,
-            accountSid: twilioCredentials.accountSid,
-            authToken: twilioCredentials.authToken,
-            from: twilioCredentials.twilioPhone,
-          }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to, message }),
         });
-        const data = await response.json();
-        if (response.ok) {
-          smsStatus.textContent = 'SMS sent successfully!';
-          smsStatus.classList.remove('text-red-600');
+        const data = await res.json();
+
+        if (res.ok) {
+          smsStatus.textContent = 'SMS sent successfully! SID: ' + data.sid;
+          smsStatus.classList.remove('text-indigo-600', 'text-red-600');
           smsStatus.classList.add('text-green-600');
-          smsMessageInput.value = '';
+          smsForm.reset();
         } else {
-          smsStatus.textContent = `Error: ${data.error || 'Failed to send SMS.'}`;
-          smsStatus.classList.remove('text-green-600');
+          smsStatus.textContent = 'Error: ' + (data.error || 'Failed to send SMS.');
+          smsStatus.classList.remove('text-indigo-600', 'text-green-600');
           smsStatus.classList.add('text-red-600');
         }
       } catch (error) {
         smsStatus.textContent = 'Network error: Could not send SMS.';
-        smsStatus.classList.remove('text-green-600');
+        smsStatus.classList.remove('text-indigo-600', 'text-green-600');
         smsStatus.classList.add('text-red-600');
       }
     });
 
-    navSms.addEventListener('click', () => {
-      if (!twilioCredentials) {
-        twilioCredentialsPage.classList.remove('hidden');
-        phoneInputPage.classList.add('hidden');
-        smsMessagePage.classList.add('hidden');
-        callPage.classList.add('hidden');
-        smsStatus.textContent = '';
-        callStatus.textContent = '';
-        return;
-      }
-      phoneInputPage.classList.remove('hidden');
-      smsMessagePage.classList.add('hidden');
-      callPage.classList.add('hidden');
-      smsStatus.textContent = '';
-      callStatus.textContent = '';
-      phoneNumberInput.value = '';
-      smsMessageInput.value = '';
-      currentPhoneNumber = '';
-    });
-
-    navCall.addEventListener('click', () => {
-      if (!twilioCredentials) {
-        twilioCredentialsPage.classList.remove('hidden');
-        phoneInputPage.classList.add('hidden');
-        smsMessagePage.classList.add('hidden');
-        callPage.classList.add('hidden');
-        smsStatus.textContent = '';
-        callStatus.textContent = '';
-        return;
-      }
-      phoneInputPage.classList.add('hidden');
-      smsMessagePage.classList.add('hidden');
-      callPage.classList.remove('hidden');
-      smsStatus.textContent = '';
-      callStatus.textContent = '';
-      callPhoneNumberInput.value = '';
-    });
-
     callForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      if (!twilioCredentials) {
-        alert('Twilio credentials missing. Please refresh and enter your credentials again.');
-        return;
-      }
-      const callNumberRaw = callPhoneNumberInput.value.trim();
-      if (!intlPhoneRegex.test(callNumberRaw)) {
-        alert('Please enter a valid international phone number in E.164 format (e.g. +44 20 7946 0958).');
-        return;
-      }
-      const callNumber = callNumberRaw.replace(/\s+/g, '');
-      callStatus.textContent = 'Initiating call via proxy...';
-      callStatus.classList.remove('text-red-600');
+      callStatus.textContent = 'Initiating call...';
+      callStatus.classList.remove('text-red-600', 'text-green-600');
       callStatus.classList.add('text-indigo-600');
 
+      const to = document.getElementById('call-phone').value.trim().replace(/\s+/g, '');
+
       try {
-        // Call backend proxy to initiate call
-        const response = await fetch(PROXY_URL + '/make-call', {
+        const res = await fetch(PROXY_URL + '/make-call', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            to: callNumber,
-            accountSid: twilioCredentials.accountSid,
-            authToken: twilioCredentials.authToken,
-            from: twilioCredentials.twilioPhone,
-          }),
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ to }),
         });
-        const data = await response.json();
-        if (response.ok) {
-          callStatus.textContent = 'Call initiated successfully!';
-          callStatus.classList.remove('text-red-600');
+        const data = await res.json();
+
+        if (res.ok) {
+          callStatus.textContent = 'Call initiated successfully! SID: ' + data.sid;
+          callStatus.classList.remove('text-indigo-600', 'text-red-600');
           callStatus.classList.add('text-green-600');
-          callPhoneNumberInput.value = '';
+          callForm.reset();
         } else {
-          callStatus.textContent = `Error: ${data.error || 'Failed to initiate call.'}`;
-          callStatus.classList.remove('text-green-600');
+          callStatus.textContent = 'Error: ' + (data.error || 'Failed to initiate call.');
+          callStatus.classList.remove('text-indigo-600', 'text-green-600');
           callStatus.classList.add('text-red-600');
         }
       } catch (error) {
         callStatus.textContent = 'Network error: Could not initiate call.';
-        callStatus.classList.remove('text-green-600');
+        callStatus.classList.remove('text-indigo-600', 'text-green-600');
         callStatus.classList.add('text-red-600');
       }
     });
