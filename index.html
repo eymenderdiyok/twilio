@@ -2,7 +2,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Twilio International SMS & Call App</title>
+  <title>Twilio International SMS & Call App with Proxy</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link
     rel="stylesheet"
@@ -21,7 +21,7 @@
 <body class="bg-gray-50 min-h-screen flex flex-col">
   <header class="bg-white shadow-md">
     <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <h1 class="text-2xl font-semibold text-indigo-600">Twilio International SMS & Call</h1>
+      <h1 class="text-2xl font-semibold text-indigo-600">Twilio International SMS & Call (Proxy)</h1>
       <div class="space-x-6">
         <button id="nav-sms" class="text-indigo-600 font-medium hover:underline focus:outline-none">Send SMS</button>
         <button id="nav-call" class="text-gray-600 hover:text-indigo-600 font-medium focus:outline-none">Make Call</button>
@@ -223,22 +223,18 @@
         twilioPhone: twilioPhone.replace(/\s+/g, ''),
       };
 
-      // Store in sessionStorage encrypted or plain (for demo plain)
       sessionStorage.setItem('twilioCredentials', JSON.stringify(twilioCredentials));
 
-      // Clear inputs for security
       accountSidInput.value = '';
       authTokenInput.value = '';
       twilioPhoneInput.value = '';
 
-      // Show phone input page
       twilioCredentialsPage.classList.add('hidden');
       phoneInputPage.classList.remove('hidden');
       smsMessagePage.classList.add('hidden');
       callPage.classList.add('hidden');
     });
 
-    // On page load, check if credentials exist in sessionStorage
     window.addEventListener('load', () => {
       const stored = sessionStorage.getItem('twilioCredentials');
       if (stored) {
@@ -256,7 +252,6 @@
       }
     });
 
-    // Show SMS page after phone number input
     phoneForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const phone = phoneNumberInput.value.trim();
@@ -264,7 +259,7 @@
         alert('Please enter a valid international phone number in E.164 format (e.g. +1 234 567 8900).');
         return;
       }
-      currentPhoneNumber = phone.replace(/\s+/g, ''); // Remove spaces for backend
+      currentPhoneNumber = phone.replace(/\s+/g, '');
       smsMessageInput.value = '';
       smsStatus.textContent = '';
       phoneInputPage.classList.add('hidden');
@@ -272,7 +267,6 @@
       callPage.classList.add('hidden');
     });
 
-    // Back button from SMS page to phone input
     smsBackButton.addEventListener('click', () => {
       smsMessagePage.classList.add('hidden');
       phoneInputPage.classList.remove('hidden');
@@ -280,7 +274,9 @@
       smsStatus.textContent = '';
     });
 
-    // Send SMS form submit
+    // Proxy URL - replace with your backend proxy URL that handles Twilio API calls securely
+    const PROXY_URL = 'https://your-backend-proxy.example.com/twilio';
+
     smsForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!twilioCredentials) {
@@ -292,13 +288,13 @@
         alert('Please enter a message to send.');
         return;
       }
-      smsStatus.textContent = 'Sending SMS...';
+      smsStatus.textContent = 'Sending SMS via proxy...';
       smsStatus.classList.remove('text-red-600');
       smsStatus.classList.add('text-indigo-600');
 
       try {
-        // Call backend API to send SMS with credentials
-        const response = await fetch('/api/send-sms', {
+        // Send SMS request to your backend proxy
+        const response = await fetch(PROXY_URL + '/send-sms', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -329,7 +325,6 @@
       }
     });
 
-    // Navigation to SMS page resets to phone input page
     navSms.addEventListener('click', () => {
       if (!twilioCredentials) {
         twilioCredentialsPage.classList.remove('hidden');
@@ -350,7 +345,6 @@
       currentPhoneNumber = '';
     });
 
-    // Navigation to Call page
     navCall.addEventListener('click', () => {
       if (!twilioCredentials) {
         twilioCredentialsPage.classList.remove('hidden');
@@ -369,7 +363,6 @@
       callPhoneNumberInput.value = '';
     });
 
-    // Call form submit
     callForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       if (!twilioCredentials) {
@@ -381,14 +374,14 @@
         alert('Please enter a valid international phone number in E.164 format (e.g. +44 20 7946 0958).');
         return;
       }
-      const callNumber = callNumberRaw.replace(/\s+/g, ''); // Remove spaces for backend
-      callStatus.textContent = 'Initiating call...';
+      const callNumber = callNumberRaw.replace(/\s+/g, '');
+      callStatus.textContent = 'Initiating call via proxy...';
       callStatus.classList.remove('text-red-600');
       callStatus.classList.add('text-indigo-600');
 
       try {
-        // Call backend API to initiate call with credentials
-        const response = await fetch('/api/make-call', {
+        // Call backend proxy to initiate call
+        const response = await fetch(PROXY_URL + '/make-call', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
